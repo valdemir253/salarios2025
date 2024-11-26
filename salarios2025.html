@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Salário</title>
+    <script>
+        // Tabela de salários cadastrados manualmente para cada combinação
+        const salarios = {
+            "40_ASSOCIADO_DIV_2_Mestrado": "Seu Salário em Janeiro de 2025 será de: R$ 8.075,25 corrigido em 10,8%",
+            "20_TITULAR_1_Graduação": "Seu Salário em Janeiro de 2025 será de: R$ 5.000,00 corrigido em 8%",
+            "exclusive_ADJUNTO_DIII_3_Doutorado": "Seu Salário em Janeiro de 2025 será de: R$ 10.500,00 corrigido em 12,5%",
+            // Adicione mais entradas conforme necessário
+        };
+
+        function consultarSalario() {
+            const jornada = document.getElementById("work-schedule").value;
+            const classe = document.getElementById("class").value.replace("/", "_");
+            const nivel = document.getElementById("level").value;
+            const titulacao = document.getElementById("degree").value;
+            const chave = `${jornada}_${classe}_${nivel}_${titulacao}`;
+            const resultado = salarios[chave] || "Não há informações cadastradas para esta combinação.";
+            document.getElementById("salary-result").innerHTML = resultado;
+            document.getElementById("reset-btn").style.display = "inline";
+        }
+
+        function resetConsulta() {
+            document.getElementById("salary-form").reset();
+            document.getElementById("salary-result").innerHTML = "";
+            document.getElementById("reset-btn").style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <h2>Consulta de Salário</h2>
+    <form id="salary-form" onsubmit="event.preventDefault(); consultarSalario();">
+        <label for="work-schedule">Jornada de Trabalho:</label>
+        <select id="work-schedule" name="work-schedule">
+            <option value="20">20 Horas</option>
+            <option value="40">40 Horas</option>
+            <option value="exclusive">Dedicação Exclusiva</option>
+        </select>
+        <br><br>
+        <label for="class">Classe:</label>
+        <select id="class" name="class">
+            <option value="TITULAR">TITULAR</option>
+            <option value="ASSOCIADO/DIV">ASSOCIADO/DIV</option>
+            <option value="ADJUNTO/DIII">ADJUNTO/DIII</option>
+            <option value="ASSISTENTE/DII">ASSISTENTE/DII</option>
+            <option value="AUXILIAR/DI">AUXILIAR/DI</option>
+        </select>
+        <br><br>
+        <label for="level">Nível:</label>
+        <select id="level" name="level">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <br><br>
+        <label for="degree">Titulação:</label>
+        <select id="degree" name="degree">
+            <option value="Graduação">Graduação</option>
+            <option value="Aperfeiçoamento">Aperfeiçoamento</option>
+            <option value="Especialização">Especialização</option>
+            <option value="Mestrado">Mestrado</option>
+            <option value="Doutorado">Doutorado</option>
+        </select>
+        <br><br>
+        <button type="submit">Consultar Salário</button>
+    </form>
+    <div id="salary-result" style="margin-top: 20px; font-weight: bold;"></div>
+    <button id="reset-btn" style="display: none; margin-top: 10px;" onclick="resetConsulta()">Refazer Consulta</button>
+</body>
+</html>
